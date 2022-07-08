@@ -1,16 +1,8 @@
 <template>
 
-  <div class="corpo">
+<div class="corpo">
 
-    <nav>
-      <ul>
-        <li v-for="route in routes" :key="route.id">
-          <router-link :to="route.path ? route.path : '/'">
-            {{ route.titulo }}
-          </router-link>
-        </li>
-      </ul>
-    </nav>
+    <meu-menu :rotas="routes"/>
 
     <transition name="pagina">
       <router-view></router-view>
@@ -21,16 +13,22 @@
 
 <script>
 
-import { routes } from './routes';
+import { routes }  from './routes';
+import Menu from './components/shared/menu/Menu.vue';
 
 export default {
 
+  components: {
+    'meu-menu' : Menu
+  },
+
   data() {
+
     return {
 
       routes
-
     }
+
   }
 
 }
@@ -38,19 +36,15 @@ export default {
 
 <style>
 .corpo {
-  font-family: Helvetica, sans-serif;
-  margin: 0 auto;
-  width: 96%;
-}
+    font-family: Helvetica, sans-serif;
+    margin: 0 auto;
+    width: 96%;
+  }
 
-.pagina-enter,
-.pagina-leave-active {
-  opacity: 0;
-}
-
-.pagina-enter-active,
-.pagina-leave-active {
-  transition: opacity .4s;
-}
-
+  .pagina-enter-active, .pagina-leave-active {
+    transition: opacity .3s
+  }
+  .pagina-enter, .pagina-leave-active {
+    opacity: 0
+  }
 </style>

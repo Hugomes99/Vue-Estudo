@@ -6,6 +6,8 @@ import Vuetify from 'vuetify';
 
 import { routes } from './routes';
 
+import './directives/Transform';
+
 Vue.use(VueResource)
 Vue.use(VueRouter);
 Vue.use(Vuetify);

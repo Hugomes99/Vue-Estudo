@@ -1,4 +1,3 @@
-
 <template>
     <div>
         <h1 class="centralizado">{{ titulo }}</h1>
@@ -10,7 +9,12 @@
             <li class="lista-fotos-item" v-for="foto of fotosComFiltro" :key="foto.url">
 
                 <meu-painel :titulo="foto.titulo">
-                    <imagem-responsiva :url="foto.url" :titulo="foto.titulo" />
+
+                    <imagem-responsiva :url="foto.url" :titulo="foto.titulo" v-meu-transform:scale.animate="1.1" />
+                    <!--v-meu-transform:rotate.animate="15"-->
+                    <meu-botao tipo="button" rotulo="REMOVER" @botaoAtivado="remove(foto)" :confirmacao="true"
+                        estilo="perigo" />
+
                 </meu-painel>
 
             </li>
@@ -22,12 +26,19 @@
 <script>
 import Painel from '../shared/painel/Painel.vue';
 import ImagemResponsiva from '../shared/imagem-responsiva/imagemResponsiva.vue';
+import Botao from '../shared/botao/Botao.vue';
+import transform from '../../directives/Transform';
 
 export default {
 
     components: {
         'meu-painel': Painel,
-        'imagem-responsiva': ImagemResponsiva
+        'imagem-responsiva': ImagemResponsiva,
+        'meu-botao': Botao
+    },
+
+    directives: {
+        'meu-transform': transform
     },
 
     data() {
@@ -52,6 +63,12 @@ export default {
             }
         }
 
+    },
+
+    methods: {
+        remove(foto) {
+            alert('Remover a foto!' + foto.titulo);
+        }
     },
 
     created() {
