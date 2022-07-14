@@ -11,7 +11,6 @@
                 <meu-painel :titulo="foto.titulo">
 
                     <imagem-responsiva :url="foto.url" :titulo="foto.titulo" v-meu-transform:scale.animate="1.1" />
-                    <!--v-meu-transform:rotate.animate="15"-->
                     <meu-botao tipo="button" rotulo="REMOVER" @botaoAtivado="remove(foto)" :confirmacao="true"
                         estilo="perigo" />
 
