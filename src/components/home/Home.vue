@@ -1,6 +1,8 @@
 <template>
-    <div>
-        <h1 class="centralizado">{{ titulo }}</h1>
+    <div>    
+        <h1 class="centralizado">Alurapic</h1>
+
+        <p v-show="mensagem" class="centralizado">{{ mensagem }}</p>
 
         <input type="seach" class="filtro" @input="filtro = $event.target.value"
             placeholder="Filtre por parte de título">
@@ -31,6 +33,7 @@ import transform from '../../directives/Transform';
 export default {
 
     components: {
+
         'meu-painel': Painel,
         'imagem-responsiva': ImagemResponsiva,
         'meu-botao': Botao
@@ -41,12 +44,13 @@ export default {
     },
 
     data() {
-
         return {
 
-            titulo: 'Catapimba',
             fotos: [],
-            filtro: ''
+
+            filtro: '',
+
+            mensagem: ''
         }
     },
 
@@ -65,18 +69,33 @@ export default {
     },
 
     methods: {
+
         remove(foto) {
-            alert('Remover a foto!' + foto.titulo);
+            this.$http
+                .delete(`http://localhost:3000/v1/fotos/${foto._id}`)
+                .then(() => {
+                    let indice = this.foto.indexOf(foto);
+                    this.fotos.splice(indice, 1);
+                    this.mensagem = 'Foto removida com sucesso';
+                },
+                    err => {
+                        this.mensagem = 'Não foi possível remover a foto';
+                        console.log(err);
+                    }
+                )
         }
+
     },
 
     created() {
 
-        this.$http.get('http://localhost:3000/v1/fotos')
+        this.$http
+            .get('http://localhost:3000/v1/fotos')
             .then(res => res.json())
             .then(fotos => this.fotos = fotos, err => console.log(err));
     }
 }
+
 </script>
 
 <style>
