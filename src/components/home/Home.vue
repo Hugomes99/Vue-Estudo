@@ -1,5 +1,5 @@
 <template>
-    <div>    
+    <div>
         <h1 class="centralizado">Alurapic</h1>
 
         <p v-show="mensagem" class="centralizado">{{ mensagem }}</p>
@@ -29,6 +29,7 @@ import Painel from '../shared/painel/Painel.vue';
 import ImagemResponsiva from '../shared/imagem-responsiva/imagemResponsiva.vue';
 import Botao from '../shared/botao/Botao.vue';
 import transform from '../../directives/Transform';
+import FotoService from '../../domain/foto/FotoService';
 
 export default {
 
@@ -67,32 +68,30 @@ export default {
     },
 
     methods: {
-
         remove(foto) {
-            this.$http
-                .delete(`v1/fotos/${foto._id}`)
-                .then(() => {
-                    let indice = this.foto.indexOf(foto);
-                    this.fotos.splice(indice, 1);
-                    this.mensagem = 'Foto removida com sucesso';
-                },
-                    err => {
-                        this.mensagem = 'Não foi possível remover a foto';
-                        console.log(err);
-                    }
-                )
+            this.service
+            .apaga(foto._id)
+            .then(() => {
+                let indice = this.fotos.indexOf(foto);
+                this.fotos.splice(indice, 1);
+                this.mensagem = 'Foto removida com sucesso'
+        }, 
+        err => {
+            this.mensagem = 'Não foi possível remover a foto';
+            console.log(err);
         }
+        )
+    }
 
-    },
+},
 
     created() {
-
-        this.$http
-            .get('v1/fotos')
-            .then(res => res.json())
-            .then(fotos => this.fotos = fotos, err => console.log(err));
+        this.service = new FotoService(this.$resource);
+        this.service
+        .lista()
+        .then(fotos => this.fotos = fotos, err => console.log(err));
+        }
     }
-}
 
 </script>
 
