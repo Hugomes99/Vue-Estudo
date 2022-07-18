@@ -13,6 +13,10 @@
                 <meu-painel :titulo="foto.titulo">
 
                     <imagem-responsiva :url="foto.url" :titulo="foto.titulo" v-meu-transform:scale.animate="1.1" />
+                    <router-link :to="{ name: 'altera', params: { id : foto._id }}">
+                    <meu-botao rotulo="ALTERAR" tipo="button"/>
+                    </router-link> 
+
                     <meu-botao tipo="button" rotulo="REMOVER" @botaoAtivado="remove(foto)" :confirmacao="true"
                         estilo="perigo" />
 
